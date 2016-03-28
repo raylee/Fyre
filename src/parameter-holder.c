@@ -104,7 +104,11 @@ static void value_transform_string_uint(const GValue *src_value, GValue *dest_va
 }
 
 static void value_transform_string_double(const GValue *src_value, GValue *dest_value) {
-    dest_value->data[0].v_double = strtod(src_value->data[0].v_pointer, NULL);
+    //deal with different languages
+    gchar *src_value_delimit = g_value_dup_string(src_value);
+    g_strdelimit (src_value_delimit, ",", '.');
+    
+    dest_value->data[0].v_double = g_ascii_strtod(src_value_delimit, NULL);
 }
 
 static void value_transform_string_boolean(const GValue *src_value, GValue *dest_value) {
